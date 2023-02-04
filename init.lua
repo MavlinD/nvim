@@ -5,12 +5,12 @@
 -- normal format is "key = value". These also handle array like data structures
 -- where a value with no key simply has an implicit numeric key
 -- https://vimhelp.org/options.txt.html#%27guicursor%27
-vim.opt.guicursor = 'i-ci-v:block-CursorInsert'
 -- vim.opt.guicursor = 'n-v-c:block-Cursor,i-ci-ve:block-CursorInsert,r-cr-o:hor20-Cursor,a:blinkon100'
 -- vim.opt.guicursor = 'n-v-c:block-Cursor,i-ci-ve:ver25-Cursor,r-cr-o:hor20-Cursor,a:blinkon100'
 
 vim.api.nvim_set_hl(0, "CursorInsert", {fg='#cc9900', bg='#FF5733'})
 
+vim.opt.guicursor = 'i-ci-v:block-CursorInsert-blinkwait300-blinkon200-blinkoff150'
 -- function hiCursor() 
 --       vim.api.nvim_set_hl(0, "Cursor", {fg='#cc9900', bg='#339966'})
 --       vim.api.nvim_set_hl(0, "CursorInsert", {fg='#cc9900', bg='#FF5733'})
