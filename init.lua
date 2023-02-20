@@ -304,34 +304,11 @@ local config = {
         -- vim.cmd "colorscheme gruvbox",
       },
 
-      -- ["pocco81/auto-save.nvim"] = {},
-      -- ["pocco81/auto-save.nvim"] = {
-      --     enabled=false
-      -- },
- --          enabled = true, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
- --    execution_message = {
-	-- 	message = function() -- message to print on save
-	-- 		return ("AutoSave+++: saved at " .. vim.fn.strftime("%H:%M:%S"))
-	-- 	end,
-	-- 	dim = 0.18, -- dim the color of `message`
-	-- 	cleaning_interval = 1250, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea
-	-- },
- --           trigger_events = {"FocusLost", }, -- vim events that trigger auto-save. See :h events
- --           	-- function that determines whether to save the current buffer or not
-	-- -- return true: if buffer is ok to be saved
-	-- -- return false: if it's not ok to be saved
-
--- use({
    ["pocco81/auto-save.nvim"] = {
-
-       -- config = function()
-		 require("auto-save").setup {
-             -- enabled = false, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
-             enabled = true, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
-			-- your config goes here
-			-- or just leave it empty :)
+		 require("auto-save").setup{
+           enabled = true, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
+           trigger_events = {"FocusLost", "ExitPre","VimLeave","QuitPre" }, -- VimLeave vim events that trigger auto-save. See :h events
 		 }
-	-- end
 },
 -- })
       -- We also support a key value style plugin definition similar to NvChad:
