@@ -9,6 +9,7 @@
 -- vim.opt.guicursor = 'n-v-c:block-Cursor,i-ci-ve:ver25-Cursor,r-cr-o:hor20-Cursor,a:blinkon100'
 
 vim.api.nvim_set_hl(0, "CursorInsert", {fg='#cc9900', bg='#FF5733'})
+vim.api.nvim_set_option_value("colorcolumn", "80", {})
 
 vim.opt.guicursor = 'i-ci-v:block-CursorInsert-blinkwait300-blinkon200-blinkoff150'
 -- function hiCursor() 
@@ -73,7 +74,7 @@ local config = {
       number = true, -- sets vim.opt.number
       spell = false, -- sets vim.opt.spell
       signcolumn = "auto", -- sets vim.opt.signcolumn to auto
-      wrap = false, -- sets vim.opt.wrap
+      wrap = true, -- sets vim.opt.wrap
     },
     g = {
       guicursor="n-v-c-i:block",
@@ -132,6 +133,7 @@ local config = {
       ["neo-tree"] = true,
       notify = true,
       ["nvim-tree"] = false,
+      ["auto-save"] = false,
       ["nvim-web-devicons"] = true,
       rainbow = true,
       symbols_outline = false,
@@ -221,6 +223,20 @@ local config = {
       ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
       ["<A-k>"] = {":set paste<CR>m`o<Esc>``:set nopaste<CR>", desc="insert empty line under"},
       ["<A-j>"] = {":set paste<CR>m`O<Esc>``:set nopaste<CR>", desc="insert empty line above"},
+      ["<A-m>"] = {":m .+1<CR>==", desc="move down one line"},
+      ["<A-,>"] = {":m .-2<CR>==", desc="move up one line"},
+      ["mm"] = {"yy p"},
+      -- <A> - alt; <C> - ctrl, <CR> - enter
+      -- ["<C-s>"] = {":w!<cr>"},
+      -- " duplicate line in normal mode:
+      --   nnoremap <C-D> Yp
+      --   " duplicate line in insert mode:
+        -- inoremap <C-D> <Esc> Ypi
+-- nnoremap <A-k> :m .-2<CR>==
+-- inoremap <A-j> <Esc>:m .+1<CR>==gi
+-- inoremap <A-k> <Esc>:m .-2<CR>==gi
+-- vnoremap <A-j> :m '>+1<CR>gv=gv
+-- vnoremap <A-k> :m '<-2<CR>gv=gv
 -- quick save
       -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
     },
@@ -230,9 +246,38 @@ local config = {
     },
   },
 
-  -- Configure plugins
+  -- Configure plugins, run :PackerSync after add plugin
   plugins = {
     init = {
+
+        -- ["Xuyuanp/scrollbar.nvim"]={},
+        ["lewis6991/gitsigns.nvim"]={
+        preview_config = {
+                -- Options passed to nvim_open_win
+                border = 'single',
+                style = 'minimal',
+                relative = 'cursor',
+                row = 0,
+                col = 1
+              },
+          },
+        ["psliwka/vim-smoothie"]={},
+          ["petertriho/nvim-scrollbar"] = {
+              show = true,
+              show_in_active_only = false,
+              set_highlights = true,
+              folds = 1000, -- handle folds, set to number to disable folds if no. of lines in buffer exceeds this
+              max_lines = false, -- disables if no. of lines in buffer exceeds this
+              hide_if_all_visible = false, -- Hides everything if all lines are visible
+              throttle_ms = 100,
+              handle = {
+                    text = " ",
+                    color = nil,
+                    color_nr = nil, -- cterm
+                    highlight = "CursorColumn",
+                    hide_if_all_visible = true, -- Hides handle if all lines are visible
+                },
+      },
           -- ["ellisonleao/gruvbox.nvim"] = {},
         ["ellisonleao/gruvbox.nvim"] = {
         -- setup must be called before loading the colorscheme
@@ -259,21 +304,36 @@ local config = {
         -- vim.cmd "colorscheme gruvbox",
       },
 
-      ["pocco81/auto-save.nvim"] = {}
-      -- You can disable default plugins as follows:
-      -- ["goolord/alpha-nvim"] = { disable = true },
-
-      -- You can also add new plugins here as well:
-      -- Add plugins, the packer syntax without the "use"
-      -- { "andweeb/presence.nvim" },
-      -- {
-      --   "ray-x/lsp_signature.nvim",
-      --   event = "BufRead",
-      --   config = function()
-      --     require("lsp_signature").setup()
-      --   end,
+      -- ["pocco81/auto-save.nvim"] = {},
+      -- ["pocco81/auto-save.nvim"] = {
+      --     enabled=false
       -- },
+ --          enabled = true, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
+ --    execution_message = {
+	-- 	message = function() -- message to print on save
+	-- 		return ("AutoSave+++: saved at " .. vim.fn.strftime("%H:%M:%S"))
+	-- 	end,
+	-- 	dim = 0.18, -- dim the color of `message`
+	-- 	cleaning_interval = 1250, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea
+	-- },
+ --           trigger_events = {"FocusLost", }, -- vim events that trigger auto-save. See :h events
+ --           	-- function that determines whether to save the current buffer or not
+	-- -- return true: if buffer is ok to be saved
+	-- -- return false: if it's not ok to be saved
 
+-- use({
+   ["pocco81/auto-save.nvim"] = {
+
+       -- config = function()
+		 require("auto-save").setup {
+             -- enabled = false, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
+             enabled = true, -- start auto-save when the plugin is loaded (i.e. when your package manager loads it)
+			-- your config goes here
+			-- or just leave it empty :)
+		 }
+	-- end
+},
+-- })
       -- We also support a key value style plugin definition similar to NvChad:
       -- ["ray-x/lsp_signature.nvim"] = {
       --   event = "BufRead",
@@ -406,5 +466,4 @@ local config = {
     -- }
   end,
 }
--- set guicursor=v-c-sm:block,n-i-ci-ve:ver25,r-cr-o:hor20
 return config
